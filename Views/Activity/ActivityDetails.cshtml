@@ -1,0 +1,47 @@
+@{
+    ViewData["Title"] = "Activity Dashboard";
+}
+@model CSharpbelt.Models.Activity
+@using CSharpbelt.Models
+@using System.Linq
+<div class="header">
+    <h1>Dojo Activity Center</h1>
+    <a id="home" href="/Dashboard">Activity Dashboard</a>
+</div>
+<div id="heading">
+<h2>Name of the Activity is: @Model.Title</h2>
+    @if(ViewBag.ActiveUserId == Model.UserId)
+    {
+        <a href="/Delete/@Model.ActivityId"><button class="btn btn-primary theButton">Delete</button></a>
+    }
+    else
+    {
+        @if(Model.Participants.Where(p => p.UserId == ViewBag.ActiveUserId).Count() == 0)
+            {
+                <a href="/Join/@Model.ActivityId"><button class="btn btn-primary theButton">JOIN Me!! :-) </button></a>
+            }
+            else
+            {
+                <a href="/Leave/@Model.ActivityId"><button class="btn btn-primary theButton">Leave Me!!  :-( </button></a>
+            }
+    }
+
+</div>
+<div class="theSections">
+<h3>Activity Arranged By: @ViewBag.theUser.FirstName</h3>
+</div>
+<div class="theSections">
+<h3>Description about this Activity :</h3>
+<div id="theDescription">
+    @Model.Description
+</div>
+</div>
+<div class="theSections">
+<h3>Participants:</h3>
+<ul>
+@foreach(var participant in Model.Participants)
+{
+    <li> <h4>Mr/Ms:  @participant.ParticipatingUsers.FirstName @participant.ParticipatingUsers.LastName </h4></li>
+}
+</ul>
+</div>
